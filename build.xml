@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<project name="BookStore" default="main" basedir=".">
+
+	<property name="src.dir" location="src" />
+	<property name="lib.dir" location="lib" />
+	<property name="build.dir" location="bin" />
+	<property name="dist.dir" location="dist" />
+	<property name="report.dir" location="bin" />
+
+	<!-- Deletes the existing build, docs and dist directory-->
+	<target name="clean">
+		<delete dir="${build.dir}" />
+
+	</target>
+
+	<!-- Creates the  build, docs and dist directory-->
+	<target name="makedir">
+		<mkdir dir="${build.dir}" />
+
+	</target>
+
+	<!-- Compiles the java code (including the usage of library for JUnit -->
+	<target name="compile" depends="clean, makedir">
+		<javac srcdir="${src.dir}" destdir="${build.dir}" includeantruntime="false">
+			<classpath location="${lib.dir}/junit.jar">
+			</classpath>
+		</javac>
+
+	</target>
+
+	<target name="test" depends="compile">
+
+		<junit printsummary="yes" haltonfailure="no">
+
+			<!-- Project classpath, must include junit.jar -->
+			<!-- test class -->
+			<classpath>
+				<pathelement location="${build.dir}" />
+				<pathelement location="${lib.dir}/junit.jar" />
+				<pathelement location="${lib.dir}/org.hamcrest.core_1.3.0.v201303031735.jar" />
+			</classpath>
+			<test name="com.test.tokbox.testbookstore.BookStoreTest" haltonfailure="yes" todir="${report.dir}">
+				<formatter type="plain" />
+				<formatter type="xml" />
+			</test>
+
+		</junit>
+	</target>
+
+	<target name="main" depends="compile">
+		<description>Main target</description>
+	</target>
+
+</project>
