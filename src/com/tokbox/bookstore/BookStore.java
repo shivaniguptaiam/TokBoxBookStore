@@ -33,7 +33,7 @@ public class BookStore {
 		 * This loop will run until remaining amount is less than the current book price
 		 */
 		
-		while (remainingAmount.compareTo(currentBookPrice) >= 0) {
+		while (remainingAmount.compareTo(BigDecimal.ZERO)>0 && remainingAmount.compareTo(currentBookPrice) >= 0) {
 			bookPurchaseCount++;
 			remainingAmount = remainingAmount.subtract(currentBookPrice);
 			currentBookPrice = currentBookPrice.subtract(discount);

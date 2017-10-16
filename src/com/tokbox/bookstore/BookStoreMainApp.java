@@ -39,7 +39,7 @@ public class BookStoreMainApp {
 				floorPrice, budget);
 		BookStore bookStore = new BookStore(bookStoreVO);
 		bookStoreVO = bookStore.purchaseBooks();
-		System.out.println("\n\nNumber of books sold: "
+		System.out.println("\n\nNumber of books can be purchased: "
 				+ bookStoreVO.getBookPurchaseCount());
 		System.out.println("Remaining amount: "
 				+ bookStoreVO.getRemainingAmount());

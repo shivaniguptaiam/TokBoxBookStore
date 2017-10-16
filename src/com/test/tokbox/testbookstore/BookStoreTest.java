@@ -12,53 +12,110 @@ import com.tokbox.bookstore.BookStoreVO;
 public class BookStoreTest {
 
 	@Test
-	public void test0() {
-		BookStoreVO testVO = new BookStoreVO(new BigDecimal(50), new BigDecimal(4), new BigDecimal(25), new BigDecimal(300));
-		BookStore bookStore = new BookStore(testVO);
-		testVO = bookStore.purchaseBooks();
-		assertEqualsPurshaceCount(8, testVO.getBookPurchaseCount());
-		assertEqualsRemainingAmount(new BigDecimal(9), testVO.getRemainingAmount());
-		
-	}
-
-	@Test
 	public void test1() {
-		BookStoreVO testVO = new BookStoreVO(new BigDecimal(50), new BigDecimal(4), new BigDecimal(25), new BigDecimal(600));
-		BookStore bookStore = new BookStore(testVO);
-		testVO = bookStore.purchaseBooks();
-		assertEqualsPurshaceCount(20, testVO.getBookPurchaseCount());
-		assertEqualsRemainingAmount(new BigDecimal(9.0), testVO.getRemainingAmount());
+		BigDecimal initialPrice = new BigDecimal(50);
+		BigDecimal discount = new BigDecimal(4);
+		BigDecimal floorPrice = new BigDecimal(25);
+		BigDecimal budget = new BigDecimal(300);
+		int expectedBookCount = 8;
+		BigDecimal expectedRemainingAmount = new BigDecimal(9);
+
+		runTest(initialPrice, discount, floorPrice, budget, expectedBookCount,expectedRemainingAmount);
 		
 	}
 
 	@Test
 	public void test2() {
-		BookStoreVO testVO = new BookStoreVO(new BigDecimal(1), new BigDecimal(1), new BigDecimal(1), new BigDecimal(1));
-		BookStore bookStore = new BookStore(testVO);
-		testVO = bookStore.purchaseBooks();
-		assertEqualsPurshaceCount(1, testVO.getBookPurchaseCount());
-		assertEqualsRemainingAmount(new BigDecimal(0), testVO.getRemainingAmount());
+		BigDecimal initialPrice = new BigDecimal(50);
+		BigDecimal discount = new BigDecimal(4);
+		BigDecimal floorPrice = new BigDecimal(25);
+		BigDecimal budget = new BigDecimal(600);
+		int expectedBookCount = 20;
+		BigDecimal expectedRemainingAmount = new BigDecimal(9);
+
+		runTest(initialPrice, discount, floorPrice, budget, expectedBookCount,expectedRemainingAmount);
 
 	}
 
 	@Test
 	public void test3() {
-		BookStoreVO testVO = new BookStoreVO(new BigDecimal(25), new BigDecimal(1.5), new BigDecimal(10), new BigDecimal(105));
-		BookStore bookStore = new BookStore(testVO);
-		testVO = bookStore.purchaseBooks();
-		assertEqualsPurshaceCount(4, testVO.getBookPurchaseCount());
-		assertEqualsRemainingAmount( new BigDecimal(14.0), testVO.getRemainingAmount());
-		
+		BigDecimal initialPrice = BigDecimal.ONE;
+		BigDecimal discount = BigDecimal.ONE;
+		BigDecimal floorPrice = BigDecimal.ONE;
+		BigDecimal budget = BigDecimal.ONE;
+		int expectedBookCount = 1;
+		BigDecimal expectedRemainingAmount = BigDecimal.ZERO;
+
+		runTest(initialPrice, discount, floorPrice, budget, expectedBookCount,expectedRemainingAmount);
+
+	}
+
+	@Test
+	public void test4() {
+		BigDecimal initialPrice = new BigDecimal(25);
+		BigDecimal discount = new BigDecimal(1.5);
+		BigDecimal floorPrice = new BigDecimal(10);
+		BigDecimal budget = new BigDecimal(105);
+		int expectedBookCount = 4;
+		BigDecimal expectedRemainingAmount = new BigDecimal(14);
+		runTest(initialPrice, discount, floorPrice, budget, expectedBookCount,expectedRemainingAmount);
 	}
 	
 	@Test
-	public void test4() {
-		BookStoreVO testVO = new BookStoreVO(new BigDecimal(10), new BigDecimal(1.5), new BigDecimal(10), new BigDecimal(105));
+	public void test5() {
+		BigDecimal initialPrice = new BigDecimal(10);
+		BigDecimal discount = new BigDecimal(1.5);
+		BigDecimal floorPrice = new BigDecimal(10);
+		BigDecimal budget = new BigDecimal(105);
+		int expectedBookCount = 10;
+		BigDecimal expectedRemainingAmount = new BigDecimal(5);
+		runTest(initialPrice, discount, floorPrice, budget, expectedBookCount,expectedRemainingAmount);
+	
+	}
+
+	@Test
+	public void test6() {
+		BigDecimal initialPrice = new BigDecimal(60);
+		BigDecimal discount = new BigDecimal(3.5);
+		BigDecimal floorPrice = new BigDecimal(40);
+		BigDecimal budget = new BigDecimal(1000);
+		int expectedBookCount = 23;
+		BigDecimal expectedRemainingAmount = new BigDecimal(12.5);
+		runTest(initialPrice, discount, floorPrice, budget, expectedBookCount,expectedRemainingAmount);
+	
+	}
+
+	@Test
+	public void test7() {
+		BigDecimal initialPrice = new BigDecimal(25);
+		BigDecimal discount = new BigDecimal(3.5);
+		BigDecimal floorPrice = new BigDecimal(20);
+		BigDecimal budget = new BigDecimal(250);
+		int expectedBookCount = 12;
+		BigDecimal expectedRemainingAmount = new BigDecimal(3.5);
+		runTest(initialPrice, discount, floorPrice, budget, expectedBookCount,expectedRemainingAmount);
+	
+	}
+	
+	@Test
+	public void testWithAllZeroes() {
+		BigDecimal initialPrice = BigDecimal.ZERO;
+		BigDecimal discount = BigDecimal.ZERO;
+		BigDecimal floorPrice = BigDecimal.ZERO;
+		BigDecimal budget = BigDecimal.ZERO;
+		int expectedBookCount = 0;
+		BigDecimal expectedRemainingAmount = BigDecimal.ZERO;
+		runTest(initialPrice, discount, floorPrice, budget, expectedBookCount,expectedRemainingAmount);
+	
+	}
+	private void runTest(BigDecimal initialPrice, BigDecimal discount,
+			BigDecimal floorPrice, BigDecimal budget, int expectedBookCount,
+			BigDecimal expectedRemainingAmount) {
+		BookStoreVO testVO = new BookStoreVO(initialPrice, discount, floorPrice, budget);
 		BookStore bookStore = new BookStore(testVO);
 		testVO = bookStore.purchaseBooks();
-		assertEqualsPurshaceCount(10, testVO.getBookPurchaseCount());
-		assertEqualsRemainingAmount( new BigDecimal(5), testVO.getRemainingAmount());
-		
+		assertEqualsPurshaceCount(expectedBookCount, testVO.getBookPurchaseCount());
+		assertEqualsRemainingAmount(expectedRemainingAmount, testVO.getRemainingAmount());
 	}
 	
 	private void assertEqualsPurshaceCount(int expectedvalue, int actualValue){
