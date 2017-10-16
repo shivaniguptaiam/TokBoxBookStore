@@ -108,6 +108,45 @@ public class BookStoreTest {
 		runTest(initialPrice, discount, floorPrice, budget, expectedBookCount,expectedRemainingAmount);
 	
 	}
+
+	@Test
+	public void testExceptionNullInitialPrice() {
+		BigDecimal initialPrice = null;
+		BigDecimal discount = BigDecimal.ZERO;
+		BigDecimal floorPrice = BigDecimal.ZERO;
+		BigDecimal budget = BigDecimal.ZERO;
+		String expectedMessage = "Incorrect initial amount";
+		String actualMessage = null;
+		BookStoreVO testVO = new BookStoreVO(initialPrice, discount, floorPrice, budget);
+		BookStore bookStore = new BookStore(testVO);
+		try {
+			testVO = bookStore.purchaseBooks();
+		} catch (Exception e) {
+			actualMessage = e.getMessage();
+			
+		}
+		assertEquals(expectedMessage, actualMessage);
+	}
+
+	@Test
+	public void testExceptionInvalidInitialPrice() {
+		BigDecimal initialPrice = new BigDecimal(-1);
+		BigDecimal discount = BigDecimal.ZERO;
+		BigDecimal floorPrice = BigDecimal.ZERO;
+		BigDecimal budget = BigDecimal.ZERO;
+		String expectedMessage = "Incorrect initial amount";
+		String actualMessage = null;
+		BookStoreVO testVO = new BookStoreVO(initialPrice, discount, floorPrice, budget);
+		BookStore bookStore = new BookStore(testVO);
+		try {
+			testVO = bookStore.purchaseBooks();
+		} catch (Exception e) {
+			actualMessage = e.getMessage();
+			
+		}
+		assertEquals(expectedMessage, actualMessage);
+	}
+	
 	private void runTest(BigDecimal initialPrice, BigDecimal discount,
 			BigDecimal floorPrice, BigDecimal budget, int expectedBookCount,
 			BigDecimal expectedRemainingAmount) {
